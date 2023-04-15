@@ -1,23 +1,40 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-/**
- * Create a repeating string based on the given parameters
- *  
- * @param {String} str string to repeat
- * @param {Object} options options object 
- * @return {String} repeating string
- * 
- *
- * @example
- * 
- * repeater('STRING', { repeatTimes: 3, separator: '**', 
- * addition: 'PLUS', additionRepeatTimes: 3, additionSeparator: '00' })
- * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
- *
- */
-function repeater(/* str, options */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function iterator (string, substring, iterations, separator ) {
+  let arr = [];
+  for (let i=0; i<iterations; i++) {
+    arr.push(string)
+    arr.push(substring);
+    if ( i !== iterations-1 ) {
+      arr.push(separator);
+    }
+  }
+  return arr.join('');
+}
+
+function repeater(str, options) {
+ 
+  let repeatTimes;
+  'repeatTimes' in options ?  repeatTimes = options.repeatTimes : repeatTimes = 1;
+  if (typeof str !== 'string') {
+    str = String(str);
+  }
+  let separator; 
+  'separator' in options ? separator = options.separator : separator = '+'; 
+  let addition;
+  'addition' in options ? addition = options.addition : addition = '';
+  if (typeof addition !== 'string') {
+    addition = String(addition);
+  }
+  let additionRepeatTimes;
+  'additionRepeatTimes' in options ? additionRepeatTimes = options.additionRepeatTimes : additionRepeatTimes = 1;
+  let additionSeparator;
+  'additionSeparator' in options ? additionSeparator = options.additionSeparator : additionSeparator = '|';
+  
+  let substr = iterator(addition, '', additionRepeatTimes,  additionSeparator );
+
+  let ans = iterator(str, substr, repeatTimes, separator);
+  return ans;
 }
 
 module.exports = {
